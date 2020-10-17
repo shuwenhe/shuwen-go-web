@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/add.css" />
+    <script
+      type="text/javascript"
+      src="/static/script/jquery-1.7.2.js"
+    ></script>
+    <script>
+      function add() {
+        var name = $("#name").val();
+        var num = $("#num").val();
+        var password = $("#password").val();
+        var logo = $("#logo").val();
+        var age = $("#age").val();
+        $.post(
+          "/api/user/add",
+          {
+            kname: name,
+            knum: num,
+            kpassword: password,
+            klogo: logo,
+            kage: age,
+          },
+          function (resp) {
+            console.log(resp);
+          }
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <h2>add</h2>
+    <input type="text" id="name" placeholder="Name" /><br />
+    <input type="text" id="num" placeholder="Num" /><br />
+    <input type="password" id="password" placeholder="Password" /><br />
+    <input type="text" id="logo" value="" placeholder="Logo" /><br />
+    <input type="number" id="age" placeholder="Age" /><br />
+    <button onclick="add()">Add</button>
+  </body>
+</html>

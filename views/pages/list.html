@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List</title>
+    <script
+      type="text/javascript"
+      src="/static/script/jquery-1.7.2.js"
+    ></script>
+    <script>
+      function init() {
+        $.get("/api/getUsers", {}, function (resp) {
+          console.log(resp);
+          var html = "<ul>";
+          for (var i = 0; i < resp.length; i++) {
+            var t = "";
+            t +=
+              "<li><b>Name</b>:" +
+              resp[i].name +
+              "<b>Num:</b>" +
+              resp[i].num +
+              "<b>Logo:</b>" +
+              resp[i].img_path +
+              '"><a href="javascript:del(' +
+              resp[i].id +
+              ')">Delete</a>' +
+              '---<a href="/edit?kid=' +
+              resp[i].id +
+              '">Update</a></li>';
+            html += t;
+          }
+          html += "</ul>";
+          document.getElementById("ctn").innerHTML = html;
+        });
+      }
+      $(function () {
+        init();
+      });
+
+      function del(id) {
+        console.log("delete id =", id);
+        $.post(
+          "/api/user/del",
+          {
+            kid: id,
+          },
+          // 回调函数
+          function (resp) {
+            console.log(resp);
+            alert(resp);
+            if (resp == "delete success!") {
+              init();
+            } else {
+              alert("delete error!");
+            }
+          }
+        );
+      }
+    </script>
+  </head>
+
+  <body>
+    <h2>list</h2>
+    <div>
+      <ul>
+        <li>
+          <b id="ctn">Name:</b><b>Num:</b><b><img src="" alt="" />Logo:</b>
+        </li>
+        <li></li>
+      </ul>
+    </div>
+  </body>
+</html>

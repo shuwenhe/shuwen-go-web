@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="text/javascript"
+      src="/static/script/jquery-1.7.2.js"
+    ></script>
+    <script>
+      function search() {
+        $.get("/api/getUserByID", { id: $("#id").val() }, function (resp) {
+          console.log(resp);
+          var html = "";
+          html += "<hr><strong>Name:</strong>" + resp.name;
+          html += "<hr><strong>Account:</strong>" + resp.num;
+          html += "<hr><strong>Age:</strong>" + resp.age;
+          html += '<hr><strong>Logo:</strong>:<img src=""' + resp.logo;
+          console.log(html);
+          document.getElementById("ctn").innerHTML = html;
+        });
+      }
+      $(function () {
+        search();
+      });
+    </script>
+  </head>
+  <body>
+    <h2>
+      getUserByID <input type="number" value="2" id="id" /><button
+        onclick="search"
+      >
+        查询
+      </button>
+    </h2>
+    <div id="ctn">
+      <!--<strong>Name:</strong>
+      <hr />
+      <strong>Account:</strong>
+      <hr />
+      <strong>Age:</strong>
+      <hr />
+      <strong>Logo:</strong> <img sr="" />-->
+    </div>
+  </body>
+</html>

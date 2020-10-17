@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit</title>
+    <link rel="stylesheet" href="static/css/add.css" />
+    <script
+      type="text/javascript"
+      src="/static/script/jquery-1.7.2.js"
+    ></script>
+    <script>
+      function init() {
+        var id = location.search.replace("?kid=", "");
+        $("#kid").val(id);
+        $.get("/api/getUserByID", { id: id }, function (resp) {
+          console.log(resp);
+          $("#name").val(resp.name);
+          $("#num").val(resp.num);
+          $("#password").val(resp.password);
+          $("#logo").val(resp.logo);
+          $("#age").val(resp.age);
+        });
+      }
+      $(function () {
+        init();
+      });
+
+      function edit() {
+        var name = $("#name").val();
+        var num = $("#num").val();
+        var password = $("#password").val();
+        var logo = $("#logo").val();
+        var age = $("#age").val();
+        $.post(
+          "/api/user/edit",
+          {
+            kname: name,
+            knum: num,
+            kpassword: password,
+            klogo: logo,
+            kage: age,
+            kid: $("#kid").val(),
+          },
+          function (resp) {
+            console.log(resp);
+            alert(resp);
+            if (resp == "update success!") {
+              init();
+            } else {
+              alert("update error!");
+            }
+          }
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Edit</h2>
+    <input type="hidden" id="kid" />
+    <input type="text" id="name" placeholder="Name" /><br />
+    <input type="text" id="num" placeholder="Num" /><br />
+    <input type="password" id="password" placeholder="Password" /><br />
+    <input type="text" id="logo" value="" placeholder="Logo" /><br />
+    <input type="number" id="age" placeholder="Age" /><br />
+    <button onclick="edit()">Edit</button>
+    <a href="/list">Return list</a>
+  </body>
+</html>
